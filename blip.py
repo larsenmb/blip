@@ -1,6 +1,6 @@
 import kivy
 #kivy.require("1.9.0")
-
+from kivy.properties import ObjectProperty
 from kivy.app import App
 from kivy.uix.widget import Widget
 from kivy.core.window import Window
@@ -30,22 +30,32 @@ Builder.load_string("""
 		text: "Send"
 		pos_hint: {'x':0, 'y':.9}
 		size_hint: (1, .1)
+		on_press: root.enterTxt()
 	TextInput:
 		pos_hint: {'x':0, 'y':.8}
 		size_hint: (1, .1)
-		on_text: add_to_message(args)
+		on_text: root.printTxt(args)
+	Button: 
+		pos_hint:{'x':0, 'y':.6}
+		size_hint: (1, .15)
+		text: root.messages_out
 """)
+Window.clearcolor = (1, 1, 1, 1)
 
 #These classes just initialize stuff
 class SplashScreen(Screen):
 	pass
 class ChatScreen(Screen):
+	messages = []
+	user_in = ""
+	messages_out = ""
+	def printTxt(self, text):
+		self.user_in = text
+	def enterTxt(self):
+		self.messages.append(self.user_in)
+		self.messages_out = str(self.messages).split('\',')
+		print(self.messages_out)
 	pass
-
-
-def add_to_message(self, text):
-	pass
-Window.bind(add_to_message=add_to_message)
 
 sm = ScreenManager()
 sm.add_widget(SplashScreen(name="spash"))
