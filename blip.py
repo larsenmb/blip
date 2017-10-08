@@ -15,25 +15,25 @@ from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.lang import Builder
 Builder.load_string("""
 <SplashScreen>:
-    orientation: "vertical"
+	orientation: "vertical"
 	Button:
 		text: "B1"
 		on_press: root.manager.current = "chat"
-        Image:
-            source: 'blip_squid.png'
-            y: self.parent.x
-            x: self.parent.y
-            size: self.parent.height, self.parent.width
-            allow_stretch: True
-	
+	Image:
+		source: 'blip_squid.png'
+		pos_hint: {'x':0, 'y':0}
+		size_hint: (1, 1)
+		allow_stretch: True
 <ChatScreen>:
 	orientation: "vertical"
 	Button:
 		text: "Send"
+		pos_hint: {'x':0, 'y':.9}
+		size_hint: (1, .1)
 	TextInput:
-		height: self.minimum_height
-		width: self.height
-		
+		pos_hint: {'x':0, 'y':.8}
+		size_hint: (1, .1)
+		on_text: add_to_message(args)
 """)
 
 #These classes just initialize stuff
@@ -42,18 +42,17 @@ class SplashScreen(Screen):
 class ChatScreen(Screen):
 	pass
 
+
+def add_to_message(self, text):
+	pass
+Window.bind(add_to_message=add_to_message)
+
 sm = ScreenManager()
 sm.add_widget(SplashScreen(name="spash"))
 sm.add_widget(ChatScreen(name="chat"))
 
 class Blip(App, BoxLayout):
 	def build(self):
-		#sm.current="first_screen"
-		#b = BoxLayout()
-		#b.add_widget(TextInput())
-		#b.add_widget(Button(text="Click me"))
-		#b.add_widget(Label(text="Hello"))
-		#widg = CustomWidget()
 		return sm
 
 #def drop_a_blip(*args):
